@@ -113,11 +113,13 @@ export default function SignupModal({ isOpen, onClose }: SignupModalProps) {
             <div className="bg-card border border-border w-full max-w-lg rounded-2xl shadow-2xl relative flex flex-col max-h-[90vh]">
 
                 {/* Close Button */}
-                {!isSuccess && (
-                    <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground z-10">
-                        <X className="w-5 h-5" />
-                    </button>
-                )}
+<button
+  onClick={onClose}
+  className="absolute top-4 right-4 text-muted-foreground hover:text-foreground z-10"
+>
+  <X className="w-5 h-5" />
+</button>
+
 
                 {/* SUCCESS STATE */}
                 {isSuccess ? (

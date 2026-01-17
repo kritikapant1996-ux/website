@@ -60,61 +60,141 @@ export default function Home() {
             <SignupModal isOpen={isSignupOpen} onClose={() => setIsSignupOpen(false)} />
 
             {/* 1. Navigation Bar (Sticky) */}
-            <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container flex h-16 max-w-screen-xl items-center justify-between px-4 md:px-8 mx-auto">
-                    <Link href="/" className="flex items-center space-x-2 font-bold text-2xl text-primary tracking-tight hover:opacity-90 transition-opacity">
-                        <Image src="/logo.png" alt="SkillUp Logo" width={220} height={48} className="h-12 w-auto object-contain" />
-                    </Link>
+            {/* Navigation Bar */}
+             <nav className="sticky top-0 z-50 w-full bg-gradient-to-r from-slate-900 to-slate-800 border-b border-white/10">
+  <div className="w-full px-8 h-16">
+    <div className="flex items-center justify-between h-full">
 
-                    {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-muted-foreground">
-                        <Link href="#services" className="hover:text-primary transition-colors">Services</Link>
-                        <Link href="#offer" className="hover:text-primary transition-colors">What I Offer</Link>
-                        <Link href="#course" className="hover:text-primary transition-colors">Course</Link>
-                        <Link href="#about" className="hover:text-primary transition-colors">Why Me</Link>
-                    </div>
+      {/* LOGO */}
+      <Link href="/" className="flex items-center">
+        <Image
+          src="/logo.png"
+          alt="SkillUp World"
+          width={320}
+          height={95}
+          priority
+          className="
+            h-10 w-auto object-contain
+            mix-blend-lighten
+            opacity-95
+            brightness-110
+          "
+        />
+      </Link>
 
-                    <div className="hidden md:flex items-center gap-4">
-                        {user ? (
-                            <>
-                                <span className="text-sm font-medium text-foreground">
-                                    Hi, {user.email?.split('@')[0]}
-                                </span>
-                                <button
-                                    onClick={handleLogout}
-                                    className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
-                                >
-                                    <LogOut className="w-4 h-4" />
-                                    Log Out
-                                </button>
-                                <button
-                                    onClick={() => setIsSignupOpen(true)}
-                                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-5 py-2.5 rounded-full font-semibold text-sm transition-all shadow-sm hover:shadow-md ml-2"
-                                >
-                                    Book Class
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-                                    Log In
-                                </Link>
-                                <button
-                                    onClick={() => setIsSignupOpen(true)}
-                                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-5 py-2.5 rounded-full font-semibold text-sm transition-all shadow-sm hover:shadow-md"
-                                >
-                                    Start Learning
-                                </button>
-                            </>
-                        )}
-                    </div>
+      {/* NAV LINKS */}
+      <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <Link
+          href="#services"
+          className="
+            text-slate-400
+            transition-all duration-300 ease-in-out
+            hover:text-cyan-400
+            hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]
+          "
+        >
+          Services
+        </Link>
 
-                    {/* Mobile Menu Placeholder */}
-                    <button className="md:hidden p-2 text-muted-foreground">
-                        <Menu className="h-6 w-6" />
-                    </button>
-                </div>
-            </nav>
+        <Link
+          href="#offer"
+          className="
+            text-slate-400
+            transition-all duration-300 ease-in-out
+            hover:text-cyan-400
+            hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]
+          "
+        >
+          What I Offer
+        </Link>
+
+        <Link
+          href="#course"
+          className="
+            text-slate-400
+            transition-all duration-300 ease-in-out
+            hover:text-cyan-400
+            hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]
+          "
+        >
+          Course
+        </Link>
+
+        <Link
+          href="#about"
+          className="
+            text-slate-400
+            transition-all duration-300 ease-in-out
+            hover:text-cyan-400
+            hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]
+          "
+        >
+          Why Me
+        </Link>
+      </div>
+
+      {/* CTA */}
+      <div className="hidden md:flex items-center gap-4">
+        {user ? (
+          <>
+            <span className="text-sm text-slate-400">
+              Hi, {user.email?.split("@")[0]}
+            </span>
+
+            <button
+              onClick={handleLogout}
+              className="
+                text-slate-400
+                transition-all duration-300 ease-in-out
+                hover:text-cyan-400
+                hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.7)]
+              "
+            >
+              <LogOut className="w-5 h-5" />
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              href="/login"
+              className="
+                text-sm text-slate-400
+                transition-all duration-300 ease-in-out
+                hover:text-cyan-400
+                hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.7)]
+              "
+            >
+              Log In
+            </Link>
+
+            <button
+                    onClick={() => setIsSignupOpen(true)}
+                    className="
+                      bg-cyan-500 hover:bg-cyan-400
+                      text-slate-900
+                      px-4 py-2
+                      rounded-full
+                      text-sm font-semibold
+                      transition-all duration-300 ease-in-out
+                      hover:shadow-[0_0_20px_rgba(34,211,238,0.8)]
+                    "
+                  >
+                    Start Learning
+                  </button>
+          </>
+        )}
+      </div>
+
+      {/* MOBILE */}
+      <button className="md:hidden text-slate-300">
+        <Menu className="h-6 w-6" />
+      </button>
+
+    </div>
+  </div>
+</nav>
+
+
 
             {/* 2. Hero Section */}
             <section className="relative pt-20 pb-32 md:pt-32 md:pb-48 overflow-hidden bg-gradient-to-b from-secondary/30 to-background">
@@ -498,30 +578,70 @@ export default function Home() {
             </section>
 
             {/* 10. Footer / Final CTA (was 9) */}
-            <footer className="bg-foreground text-background py-20">
-                <div className="container px-4 md:px-8 mx-auto max-w-screen-xl text-center">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">Get Started</h2>
-                    <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-10">
-                        Your voice matters. With the right guidance, anyone can become a confident speaker.
-                    </p>
-                    <button className="bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all text-lg px-8 py-4 rounded-full font-bold shadow-xl shadow-primary/20 flex items-center justify-center mx-auto">
-                        <MessageSquare className="mr-2 h-5 w-5" />
-                        Contact us today
-                    </button>
-                    <p className="mt-4 text-sm text-gray-400">...to start your public speaking journey.</p>
+          {/* ================= FOOTER ================= */}
+      <footer className="bg-foreground text-background py-20">
+  <div className="container mx-auto max-w-screen-xl px-4 md:px-8 text-center">
+    <h2 className="text-3xl md:text-5xl font-bold mb-6">
+      Get Started
+    </h2>
 
-                    <div className="mt-20 border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-                        <div className="flex items-center space-x-2 mb-4 md:mb-0">
-                            <Mic className="h-5 w-5" />
-                            <span className="font-bold text-gray-200">SkillUp</span>
-                        </div>
-                        <p className="mt-4 md:mt-0">&copy; 2026 SkillUp Platform. All rights reserved.</p>
-                    </div>
-                </div>
-            </footer>
+    <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+      Your voice matters. With the right guidance, anyone can become a
+      confident speaker.
+    </p>
+
+    <a
+      href="/contact"
+      className="inline-flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all text-lg px-8 py-4 rounded-full font-bold shadow-xl shadow-primary/20"
+    >
+      <MessageSquare className="mr-2 h-5 w-5" />
+      Contact us today
+    </a>
+
+    <p className="mt-4 text-sm text-muted-foreground">
+      …to start your public speaking journey.
+    </p>
+
+    <div className="mt-20 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-muted-foreground">
+      <a href="/" className="flex items-center gap-4 group">
+
+        {/* MIC ICON — cyan glow on hover */}
+        <Mic
+          className="
+            h-6 w-6 text-primary
+            transition-all duration-300 ease-in-out
+            group-hover:text-cyan-400
+            group-hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]
+          "
+        />
+
+        <div>
+          <span className="block text-lg font-extrabold text-white">
+            SKILLUP WORLD
+          </span>
+
+          {/* TAGLINE — cyan glow on hover */}
+          <span
+            className="
+              block text-xs tracking-widest text-primary
+              transition-all duration-300 ease-in-out
+              group-hover:text-cyan-400
+              group-hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]
+            "
+          >
+            LEARN. GROW. SUCCEED.
+          </span>
         </div>
+      </a>
+
+      <p>© {new Date().getFullYear()} SKILLUP World. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+</div>
     );
 }
+
 
 // Subcomponents
 

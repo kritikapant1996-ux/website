@@ -1,80 +1,131 @@
 "use client";
 
-import Link from 'next/link';
-import { supabase } from '@/lib/supabaseClient';
-import { useState, useEffect } from 'react';
-import { User } from '@supabase/supabase-js';
-import { LogOut, User as UserIcon } from 'lucide-react';
+import Link from "next/link";
+import Image from "next/image";
+import { supabase } from "@/lib/supabaseClient";
+import { useState, useEffect } from "react";
+import { User } from "@supabase/supabase-js";
+import { Menu } from "lucide-react";
+
+// 🔹 import your existing modal
+// import SignupModal from "@/components/SignupModal";
 
 export default function NavBar() {
-    const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
 
-    useEffect(() => {
-        // Get initial session
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setUser(session?.user ?? null);
-        });
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
 
-        // Listen for changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
-        });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
 
-        return () => subscription.unsubscribe();
-    }, []);
+    return () => subscription.unsubscribe();
+  }, []);
 
-    const handleLogout = async () => {
-        await supabase.auth.signOut();
-        // setUser(null) handled by subscription
-    };
+  return (
+    <>
+      <nav className="sticky top-0 z-50 w-full bg-gradient-to-r from-slate-900 to-slate-800 border-b border-white/10">
+        <div className="w-full px-8 h-16">
+          <div className="flex h-full items-center justify-between">
 
-    return (
-        <nav className="border-b border-white/10 bg-background/50 backdrop-blur-md sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center">
-                        <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                            EdMastery
-                        </Link>
-                    </div>
-                    <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-4">
-                            <Link href="/tracks/public-speaking" className="hover:bg-white/5 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                                Public Speaking
-                            </Link>
-                            <Link href="/tracks/business" className="hover:bg-white/5 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                                Business
-                            </Link>
-                            <Link href="/tracks/pedagogy" className="hover:bg-white/5 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                                Pedagogy
-                            </Link>
-                        </div>
-                    </div>
-                    <div>
-                        {user ? (
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2 text-sm font-medium">
-                                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                                        <UserIcon size={16} />
-                                    </div>
-                                    <span className="hidden sm:inline-block">{user.email?.split('@')[0]}</span>
-                                </div>
-                                <button
-                                    onClick={handleLogout}
-                                    className="text-muted-foreground hover:text-foreground transition-colors"
-                                    title="Logout"
-                                >
-                                    <LogOut size={20} />
-                                </button>
-                            </div>
-                        ) : (
-                            <Link href="/login" className="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                                Get Started
-                            </Link>
-                        )}
-                    </div>
-                </div>
+            {/* LOGO */}
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/logo.png"
+                alt="SkillUp World"
+                width={320}
+                height={95}
+                priority
+                className="
+                  h-10 w-auto object-contain
+                  mix-blend-lighten
+                  opacity-95
+                  brightness-110
+                "
+              />
+            </Link>
+
+            {/* NAV LINKS */}
+            <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
+              {[
+                ["#services", "Services"],
+                ["#offer", "What I Offer"],
+                ["#course", "Course"],
+                ["#about", "Why Me"],
+              ].map(([href, label]) => (
+                <Link
+                  key={label}
+                  href={href}
+                  className="
+                    text-slate-400
+                    transition-all duration-300 ease-in-out
+                    hover:text-cyan-400
+                    hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]
+                  "
+                >
+                  {label}
+                </Link>
+              ))}
             </div>
-        </nav>
-    );
+
+            {/* AUTH */}
+            <div className="hidden md:flex items-center gap-4">
+              {!user && (
+                <>
+                  {/* Log In → still goes to /login */}
+                  <Link
+                    href="/login"
+                    className="
+                      text-sm text-slate-400
+                      transition-all duration-300 ease-in-out
+                      hover:text-cyan-400
+                      hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.7)]
+                    "
+                  >
+                    Log In
+                  </Link>
+
+                  {/* Start Learning → opens modal */}
+                  <button
+                    onClick={() => setIsSignupOpen(true)}
+                    className="
+                      bg-cyan-500 hover:bg-cyan-400
+                      text-slate-900
+                      px-4 py-2
+                      rounded-full
+                      text-sm font-semibold
+                      transition-all duration-300 ease-in-out
+                      hover:shadow-[0_0_20px_rgba(34,211,238,0.8)]
+                    "
+                  >
+                    Start Learning
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* MOBILE */}
+            <button className="md:hidden text-slate-300">
+              <Menu className="h-6 w-6" />
+            </button>
+
+          </div>
+        </div>
+      </nav>
+
+      {/* SIGNUP / ONBOARDING MODAL */}
+      {/* 
+      <SignupModal
+        open={isSignupOpen}
+        onClose={() => setIsSignupOpen(false)}
+      />
+      */}
+    </>
+  );
 }
